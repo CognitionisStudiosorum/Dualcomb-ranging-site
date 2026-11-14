@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ranging with two combs from one fiber laser</title>
+<meta name="description" content="Interactive summary of a dual-comb polarization-multiplexing ring-cavity fiber laser used for ranging: how two combs share one cavity, why the distance scale is Δfrep/frep, and the 125-hour stability (Optics Express 33(8), 2025).">
+<meta property="og:title" content="Dual-comb polarization-multiplexing ring-cavity fiber laser for ranging applications">
+<meta property="og:description" content="Two frequency combs from one erbium fiber ring measure distance with 340 µm precision in 10 ms, and stay mutually coherent for 125 hours without stabilization.">
+<meta property="og:image" content="assets/media/thumbnail.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%230e2233' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='5' r='3.4' fill='%23d1432f'/%3E%3Ccircle cx='24.5' cy='9' r='3.4' fill='%232a62c9'/%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/archivo-latin-wdth-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="top" aria-label="Sections">
+  <a class="home" href="#top">Dual-comb ranging laser</a>
+  <ul>
+    <li><a href="#laser">Laser</a></li>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#scaling">Why Δf/f</a></li>
+    <li><a href="#ranging">Ranging</a></li>
+    <li><a href="#stability">Stability</a></li>
+    <li><a href="#cite">Cite</a></li>
+  </ul>
+</nav>
+
+<main id="main">
+
+<header class="hero" id="top">
+  <h1>Dual-comb polarization-multiplexing ring-cavity fiber laser for ranging applications</h1>
+  <p class="lead">One erbium fiber ring emits two pulse trains on orthogonal polarizations, with repetition rates a kilohertz apart. One train goes to the target, the other samples the echoes. Because their periods differ by less than a picosecond, the echo delay comes out stretched about 36&nbsp;000 times, slow enough for an ordinary photodiode and oscilloscope.</p>
+  <p class="byline">Alberto Rodríguez Cuevas, Dmitrii Stoliarov, Hani Kbashi and Sergey Sergeyev</p>
+  <p class="venue"><a href="https://doi.org/10.1364/OE.555772">Optics Express 33(8), 18161–18168 (2025)</a> · open access</p>
+
+  <figure class="run panel" id="hero">
+    <canvas id="range" class="range" role="img" aria-label="Top: inside one 25.48 nanosecond period, two red echoes, from the reference and the target, sit at fixed delays while a blue local-oscillator pulse slides slowly across them. Bottom: the photodetector signal in lab time. A burst appears each time the blue pulse crosses an echo, and the gap between the two bursts is the echo delay multiplied by f over delta f."></canvas>
+    <div class="under">
+      <ul class="legend">
+        <li><span class="swatch" style="background:var(--fast)"></span>Signal comb (fast axis), echoes</li>
+        <li><span class="swatch" style="background:var(--slow)"></span>Local oscillator (slow axis)</li>
+        <li><span class="line"></span>Reference burst</li>
+        <li><span class="line" style="border-color:var(--tar)"></span>Target burst</li>
+      </ul>
+      <div><button type="button" id="range-toggle" class="quiet">Pause</button></div>
+    </div>
+    <div class="readouts" aria-live="off">
+      <span>Lab time <b id="ro-lab">0.000 ms</b></span>
+      <span>Round trips <b id="ro-rt">0</b></span>
+      <span>LO offset inside the period <b id="ro-off">0.00 ns</b></span>
+    </div>
+    <figcaption>Slow motion of one measurement with Δ<i>f</i><sub>rep</sub>&nbsp;=&nbsp;1.1&nbsp;kHz. The readouts are the real values: each frame moves the local oscillator by thousands of round trips, 0.71&nbsp;ps each. Pulse widths and fringe spacing are drawn far wider than the real 1.5&nbsp;ps pulses so that they show at this scale.</figcaption>
+  </figure>
+</header>
+
+<section id="idea">
+  <h2>Picoseconds on a slow detector</h2>
+  <p>Light covers a millimetre and back in 6.7&nbsp;ps. Timing an echo that finely by brute force needs a very fast photodiode and fast electronics. Dual-comb ranging avoids that. A second pulse train, with a repetition rate Δ<i>f</i><sub>rep</sub> away from the first, samples the echoes a little later on every round trip, like a stroboscope that drifts. The optical delay is replayed in slow motion, magnified by <i>f</i><sub>rep</sub>/Δ<i>f</i><sub>rep</sub>, and the distance comes back by multiplying the measured lab-time delay by Δ<i>f</i><sub>rep</sub>/<i>f</i><sub>rep</sub>.</p>
+  <p>The catch has always been the two combs. Two separate lasers have to be locked to each other, which is expensive and complicated. This work makes both combs in one cavity, so the vibrations and temperature changes that shift one shift the other too, and their difference stays steady without any locking.</p>
+</section>
+
+<section id="laser">
+  <h2>Two combs in one ring</h2>
+  <p>The cavity is 5.25&nbsp;m of fiber. A wavelength-division multiplexer brings in the 980&nbsp;nm pump; 45&nbsp;cm of erbium-doped fiber gives gain near 1560&nbsp;nm; a film of single-wall carbon nanotubes acts as the saturable absorber that locks the modes; an isolator keeps the light going one way; and a coupler lets part of it out. A 0.5&nbsp;m piece of polarization-maintaining fiber and a polarization controller make the ring birefringent, so it supports two vector solitons at once, one on each axis.</p>
+  <p>The two axes differ in refractive index by Δ<i>n</i>&nbsp;=&nbsp;3.19&nbsp;×&nbsp;10<sup>−5</sup>, a beat length of 4.9&nbsp;cm. That is enough for the two pulses to take slightly different times to go round. Both pass through the same fibers, so any stretch of the cavity changes both round trips together.</p>
+
+  <div class="split">
+    <figure class="panel">
+      <canvas id="ring" class="ring" role="img" aria-label="Ring cavity with pump coupler, erbium fiber, polarization-maintaining fiber, polarization controller, carbon nanotube absorber, isolator and output coupler. A red and a blue pulse go round clockwise; the red one gains a little on each lap and eventually overtakes the blue one."></canvas>
+      <div class="readouts" aria-live="off">
+        <span>Round trips drawn <b id="ring-n">0</b></span>
+        <span>Real lead after them <b id="ring-lead">0.00 ps</b></span>
+        <span id="ring-state">&nbsp;</span>
+      </div>
+      <figcaption>The red pulse is drawn gaining a twentieth of the ring per lap. In the laser it gains 513&nbsp;fs per 25.48&nbsp;ns round trip, so a full overtake takes about 50&nbsp;000 round trips, 1.3&nbsp;ms. Each overtake is one interferogram.</figcaption>
+    </figure>
+    <dl class="facts">
+      <div><dt>Cavity</dt><dd>5.25&nbsp;m ring, net anomalous dispersion</dd></div>
+      <div><dt>Gain</dt><dd>45&nbsp;cm Er<sup>3+</sup> fiber (ER110-4/125), 980&nbsp;nm pump</dd></div>
+      <div><dt>Mode locking</dt><dd>Single-wall carbon nanotube film</dd></div>
+      <div><dt>Birefringence</dt><dd>0.5&nbsp;m PM-1550 fiber and a polarization controller</dd></div>
+      <div><dt>Repetition rate</dt><dd>39.25&nbsp;MHz, round trip 25.47&nbsp;ns</dd></div>
+      <div><dt>Spectrum</dt><dd>Centred near 1559.5&nbsp;nm, 1.84&nbsp;nm wide for both combs</dd></div>
+      <div><dt>Output</dt><dd>About 0.3&nbsp;mW, both combs together</dd></div>
+      <div><dt>Housing</dt><dd>Laser-cut polycarbonate box, fibers held in 3D-printed trays</dd></div>
+    </dl>
+  </div>
+
+  <h3>Watching the two pulses drift apart</h3>
+  <p>A dispersive Fourier transform records the output pulse by pulse. Over 17&nbsp;000 round trips the two traces stay straight and sharp, so both combs are cleanly mode-locked, and one line walks steadily towards the other. From the slope, the round trips of the two axes are 25.480056&nbsp;ns and 25.479543&nbsp;ns: they differ by 513&nbsp;fs. That number is the step of the ranging measurement, as the section on <a href="#scaling">the scale factor</a> explains.</p>
+  <figure class="shot">
+    <img src="assets/media/fig4_dft.webp" alt="Intensity map against round-trip number from 0 to 17 000: a horizontal line near 700 ns and a second line starting near 1450 ns and sloping down to meet it at the right edge." width="738" height="199" loading="lazy">
+    <figcaption><b>Fig. 4.</b> Intensity dynamics of the dual-comb regime over 17&nbsp;000 round trips, from the dispersive Fourier transform.</figcaption>
+  </figure>
+
+  <h3>Separating the combs</h3>
+  <p>Outside the cavity a polarization controller and a polarizing beam splitter send each comb to its own fiber, with about 18&nbsp;dB of extinction on each side. The two optical spectra almost coincide: centres at 1559.78 and 1559.46&nbsp;nm, widths of 1.84&nbsp;nm. Sharing the band is what makes the two combs useful together, since every pair of lines can beat.</p>
+  <figure class="shot small">
+    <img src="assets/media/fig2_separation.webp" alt="a) RF spectrum near 39.25 MHz with a red and a blue peak about 833 Hz apart, each with about 18 dB extinction against the other. b) Optical spectra of the fast axis, slow axis and the original output, all centred near 1559.5 nm." width="646" height="736" loading="lazy">
+    <figcaption><b>Fig. 2.</b> (a) RF spectrum of the fast (red) and slow (blue) combs after the splitter. (b) Their optical spectra and that of the combined output (black).</figcaption>
+  </figure>
+</section>
+
+<section id="setup">
+  <h2>From the laser to the oscilloscope</h2>
+  <p>The fast-axis comb is the signal. The slow-axis comb is the local oscillator that samples it.</p>
+  <figure class="shot">
+    <img src="assets/media/fig1_setup.webp" alt="Drawing of the setup: the fiber ring laser at bottom left with pump, polarization-maintaining fiber, erbium fiber, polarization controller, carbon nanotubes and isolator; a polarization controller and beam splitter; an amplifier and couplers feeding a circulator, a telescope aimed at a target and a fiber reference loop with an attenuator; and a final coupler, photodiode, RF analyser and oscilloscope." width="2200" height="1130" loading="lazy">
+    <figcaption><b>Fig. 1.</b> The laser cavity and the ranging setup. PC, polarization controller; PBS, polarization beam splitter; OC, optical coupler; T&amp;C, telescope and collimator; Ref, reference fiber; PD, photodiode; OSC, oscilloscope; RF, RF spectrum analyser.</figcaption>
+  </figure>
+  <ol class="steps-list">
+    <li><b>Signal.</b> The fast comb is amplified and split in two. Half goes through a circulator and a telescope to the target and back; the other half runs through a reference fiber of known length, with an attenuator to bring both echoes to the same power so that neither buries the other. In some runs a fiber spool replaced the free-space path to avoid its losses.</li>
+    <li><b>Local oscillator.</b> The slow comb passes through a polarization controller to match the signal's polarization.</li>
+    <li><b>Detection.</b> A 50/50 coupler combines signal and local oscillator on a DC–125&nbsp;MHz photodiode. A 15&nbsp;MHz low-pass filter removes everything but the slow beat, and the oscilloscope records at 40&nbsp;MS/s.</li>
+  </ol>
+</section>
+
+<section id="scaling">
+  <h2>Why the distance scale is Δ<i>f</i><sub>rep</sub>/<i>f</i><sub>rep</sub></h2>
+  <p>Call the signal repetition rate <i>f</i> and the local oscillator <i>f</i>&nbsp;+&nbsp;Δ<i>f</i>. Their periods are <i>T</i>&nbsp;=&nbsp;1/<i>f</i> and slightly shorter for the local oscillator. Follow one signal pulse and the local-oscillator pulse that leaves with it.</p>
+  <ol class="steps-list">
+    <li><b>Each round trip, the local oscillator slips by a fixed step.</b> The difference of the two periods is
+      <div class="eq-block"><math display="block"><mi>ΔT</mi><mo>=</mo><mfrac><mn>1</mn><mi>f</mi></mfrac><mo>−</mo><mfrac><mn>1</mn><mrow><mi>f</mi><mo>+</mo><mi>Δf</mi></mrow></mfrac><mo>=</mo><mfrac><mi>Δf</mi><mrow><mi>f</mi><mo>(</mo><mi>f</mi><mo>+</mo><mi>Δf</mi><mo>)</mo></mrow></mfrac><mo>≈</mo><mfrac><mi>Δf</mi><msup><mi>f</mi><mn>2</mn></msup></mfrac></math></div>
+      This is the 513&nbsp;fs seen in the dispersive Fourier transform. It is the slide of a vernier: two scales whose divisions differ by a tiny amount.</li>
+    <li><b>An echo delayed by τ is reached after τ/ΔT round trips.</b> If the reference echo and the target echo are τ apart in optical delay, the local oscillator needs <i>N</i>&nbsp;=&nbsp;τ/ΔT round trips to move from one to the other.</li>
+    <li><b>Those round trips take real time.</b> Each lasts <i>T</i>, so the two bursts on the oscilloscope are separated by
+      <div class="eq-block"><math display="block"><mi>Δt</mi><mo>=</mo><mi>N</mi><mi>T</mi><mo>=</mo><mi>τ</mi><mfrac><mi>T</mi><mi>ΔT</mi></mfrac><mo>=</mo><mi>τ</mi><mfrac><mi>f</mi><mi>Δf</mi></mfrac></math></div>
+      The magnification is <i>f</i>/Δ<i>f</i>, the number of round trips the local oscillator takes to cross one whole period. With 39.25&nbsp;MHz and 1.1&nbsp;kHz it is about 35&nbsp;700.</li>
+    <li><b>Undo the magnification to get the distance.</b> Measure Δ<i>t</i> on the oscilloscope, multiply by Δ<i>f</i>/<i>f</i> to recover τ, and halve the round-trip path, which is Eq. (5) of the paper:
+      <div class="eq-block"><math display="block"><mi>D</mi><mo>=</mo><mfrac><mrow><mi>ν</mi><mo>·</mo><mi>Δt</mi></mrow><mn>2</mn></mfrac><mo>·</mo><mfrac><mrow><mi>Δ</mi><msub><mi>f</mi><mtext>rep</mtext></msub></mrow><msub><mi>f</mi><mtext>rep</mtext></msub></mfrac><mo>+</mo><msub><mi>D</mi><mtext>ref</mtext></msub></math></div>
+      with ν the speed of light in air and <i>D</i><sub>ref</sub> the known reference length.</li>
+  </ol>
+  <p>The same factor appears in the frequency domain. Each pair of optical lines, one from each comb, beats at a radio frequency; neighbouring pairs differ by Δ<i>f</i> instead of <i>f</i>. The 227&nbsp;GHz optical spectrum is copied into an RF comb Δ<i>f</i>/<i>f</i> times narrower, a few megahertz wide, which the photodiode and the 15&nbsp;MHz filter pass easily. Time stretches by <i>f</i>/Δ<i>f</i> exactly as frequency shrinks by Δ<i>f</i>/<i>f</i>.</p>
+
+  <ul class="chain" aria-label="Worked example at 1.1 kHz">
+    <li><b>340&nbsp;µm</b><span>precision reported, a distance</span></li>
+    <li><b>2.27&nbsp;ps</b><span>the matching round-trip delay, 2<i>D</i>/ν</span></li>
+    <li><b>81&nbsp;ns</b><span>the same delay on the oscilloscope, <i>×&nbsp;f</i>/Δ<i>f</i></span></li>
+    <li><b>3 samples</b><span>at 40&nbsp;MS/s, easy to resolve</span></li>
+  </ul>
+
+  <div class="calc panel" id="calc">
+    <div class="controls">
+      <label class="slider"><span>Δ<i>f</i><sub>rep</sub></span><output id="o-df">1100 Hz</output><input type="range" id="i-df" min="200" max="4500" step="10" value="1100"></label>
+      <label class="slider"><span>Target minus reference</span><output id="o-d">1.20 m</output><input type="range" id="i-d" min="0" max="3.8" step="0.01" value="1.2"></label>
+      <p class="hint"><i>f</i><sub>rep</sub>&nbsp;=&nbsp;39.25&nbsp;MHz, optical bandwidth 227&nbsp;GHz (1.84&nbsp;nm), oscilloscope at 40&nbsp;MS/s, as in the paper. The stability run sat between 1.1 and 1.15&nbsp;kHz.</p>
+      <p><button type="button" class="quiet" id="calc-reset">Back to 1.1 kHz</button></p>
+    </div>
+    <div class="views">
+      <canvas id="ruler" class="ruler" role="img" aria-label="Two rulers. The upper one is one optical period of 25.48 ns with the reference and target echoes marked. The lower one is lab time from 0 to 5 ms; the same period is stretched over 1 over delta f, and lines fan out from the upper marks to the lower ones."></canvas>
+      <div class="stat-row" id="tiles">
+        <div class="stat key"><b id="t-m">35 700×</b><span>Stretch <i>f</i>/Δ<i>f</i></span></div>
+        <div class="stat"><b id="t-dT">714 fs</b><span>Slip per round trip, ΔT</span></div>
+        <div class="stat"><b id="t-dt">0.29 ms</b><span>Gap between bursts, Δ<i>t</i></span></div>
+        <div class="stat"><b id="t-per">0.91 ms</b><span>Interferogram period 1/Δ<i>f</i>, one distance each</span></div>
+        <div class="stat"><b id="t-samp">0.11 mm</b><span>Distance per oscilloscope sample</span></div>
+        <div class="stat"><b id="t-err">1.1 mm</b><span>Error if Δ<i>f</i> is 1&nbsp;Hz off</span></div>
+      </div>
+      <canvas id="bars" class="bars" role="img" aria-label="Bar chart comparing the interferogram bandwidth with the 15 MHz filter and the 19.6 MHz Nyquist limit."></canvas>
+      <p class="check" id="calc-check" aria-live="polite"></p>
+    </div>
+  </div>
+
+  <h3>The trade-off in choosing Δ<i>f</i></h3>
+  <p>A smaller Δ<i>f</i> stretches more. Each oscilloscope sample then covers less distance, so timing is finer, but distances arrive more slowly, one per interferogram, and a small error in the value of Δ<i>f</i> costs more, because it enters the scale directly. A larger Δ<i>f</i> gives faster updates, until the RF copy of the spectrum, Δν·Δ<i>f</i>/<i>f</i> wide, no longer fits below <i>f</i>/2 and aliases. For this laser that limit is <i>f</i><sup>2</sup>/(2Δν), about 3.4&nbsp;kHz. Around 1.1&nbsp;kHz the interferogram is about 6&nbsp;MHz wide and sits comfortably under the 15&nbsp;MHz filter.</p>
+  <p>The range does not depend on Δ<i>f</i>. In one interferogram period the local oscillator crosses exactly one signal period, so any delay longer than <i>T</i> folds back. The ambiguity range is ν/(2<i>f</i>)&nbsp;=&nbsp;3.8&nbsp;m.</p>
+  <details>
+    <summary>Which repetition rate goes in the denominator?</summary>
+    <p>Strictly the stretch is <i>T</i>/ΔT&nbsp;=&nbsp;(<i>f</i>&nbsp;+&nbsp;Δ<i>f</i>)/Δ<i>f</i>, and the scale changes slightly depending on whether the signal or the local-oscillator rate is used. The two differ by Δ<i>f</i>/<i>f</i>&nbsp;≈&nbsp;3&nbsp;×&nbsp;10<sup>−5</sup>, at most about 0.1&nbsp;mm across the full 3.8&nbsp;m range, below the 340&nbsp;µm precision reported. Getting Δ<i>f</i> itself right matters far more: a 1&nbsp;Hz error at 1.1&nbsp;kHz is a relative error of 0.09&nbsp;%.</p>
+  </details>
+</section>
+
+<section id="ranging">
+  <h2>Ranging results</h2>
+  <p>A 10&nbsp;ms trace holds about fifteen pairs of bursts. Without the filter the interferograms are buried in noise; with it, they stand out. The reference is set slightly stronger than the target so the two can be told apart.</p>
+  <figure class="shot narrow">
+    <img src="assets/media/fig6_ranging.webp" alt="a) A 10 ms oscilloscope trace: a dense band of noise between about ±5000 mV with sharp spikes up to 10 000 mV. b) The processed trace: separated vertical bursts, alternating blue target echoes and black reference echoes, with arrows marking the delay between each pair." width="1700" height="1428" loading="lazy">
+    <figcaption><b>Fig. 6.</b> (a) 10&nbsp;ms oscilloscope trace. (b) The processed trace, with target bursts in blue and reference bursts in black; Δ<i>t</i>&nbsp;=&nbsp;<i>t</i><sub>tar</sub>&nbsp;−&nbsp;<i>t</i><sub>ref</sub>.</figcaption>
+  </figure>
+  <ol class="steps-list">
+    <li>Find the strongest point in the trace, the most intense reference burst.</li>
+    <li>Step through the trace at the known burst period to locate every other reference burst, then the target bursts between them.</li>
+    <li>Cut a window of 6000 samples on each side of each burst.</li>
+    <li>Fit each burst by convolution with a template interferogram to find its centre.</li>
+    <li>Average the target-minus-reference delays over <i>n</i>&nbsp;&gt;&nbsp;10 pairs and convert with Δ<i>f</i>/<i>f</i>:
+      <div class="eq-block"><math display="block"><mi>Δt</mi><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><mo>(</mo><msub><mi>t</mi><mrow><mtext>tar</mtext><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><msub><mi>t</mi><mrow><mtext>ref</mtext><mo>,</mo><mi>i</mi></mrow></msub><mo>)</mo></math></div></li>
+  </ol>
+  <div class="stat-row">
+    <div class="stat"><b>340&nbsp;µm</b><span>Precision, standard deviation</span></div>
+    <div class="stat"><b>10&nbsp;ms</b><span>Averaging time</span></div>
+    <div class="stat"><b>3073.905&nbsp;mm</b><span>Distance measured, fiber path</span></div>
+    <div class="stat"><b>3.8&nbsp;m</b><span>Ambiguity range, ν/(2<i>f</i>)</span></div>
+  </div>
+  <p>That first measurement used a fiber path. Through the telescope the target echoes were weaker and the signal-to-noise ratio lower. The precision is limited mainly because only the burst envelopes are used; adding the interferometric phase, or averaging more bursts, would improve it. The processing is simple on purpose, so that it can run later on a low-cost FPGA or microcontroller.</p>
+</section>
+
+<section id="stability">
+  <h2>Stable for 125 hours, with no locking</h2>
+  <p>Ranging needs Δ<i>f</i> to be known, because it sets the scale, and to stay put while a trace is recorded. Over 125 hours at room temperature both combs kept running. Each repetition rate wandered by about 0.3&nbsp;kHz with the room, but the two moved together: Δ<i>f</i> stayed between 1108 and 1150&nbsp;Hz, drifting about 1&nbsp;Hz per hour and 2&nbsp;Hz per hour at worst. Over a 10&nbsp;ms trace that is nothing; over days it is 3&nbsp;%, which is why Δ<i>f</i> is measured alongside each trace. Dual-comb operation has been seen to last up to 250 hours, against 1 to 2 hours typical in the literature and 7 hours in the group's earlier cavity.</p>
+  <div class="stat-row">
+    <div class="stat"><b>125&nbsp;h</b><span>Continuous dual-comb operation, monitored</span></div>
+    <div class="stat"><b>17×</b><span>Longer than the previous cavity (7&nbsp;h)</span></div>
+    <div class="stat"><b>~1&nbsp;Hz/h</b><span>Drift of Δ<i>f</i><sub>rep</sub></span></div>
+    <div class="stat"><b>−80&nbsp;dBc/Hz</b><span>Phase noise at 100&nbsp;Hz, from −70</span></div>
+  </div>
+  <p>The gains come from small, practical changes: a shorter cavity, a shorter but more heavily doped gain fiber, fibers wound into 3D-printed trays so they cannot move, and the whole laser closed in its own box. The Allan deviation of each repetition rate stays typical of a free-running laser; the point is that the two combs share their noise, so the difference between them is far steadier than either.</p>
+  <div class="pair">
+    <figure class="shot">
+      <img src="assets/media/fig3_stability.webp" alt="a) Waterfall of optical spectra from 1550 to 1572 nm over 7550 minutes, stable in shape with some changes at the end. b) Over 120 hours the slow and fast comb frequencies rise and fall together by about 0.3 kHz, while their difference rises gently from about 1110 to 1150 Hz." width="749" height="918" loading="lazy">
+      <figcaption><b>Fig. 3.</b> (a) Optical spectra over 125&nbsp;h. (b) Repetition rates of both combs and their difference.</figcaption>
+    </figure>
+    <figure class="shot">
+      <img src="assets/media/fig5_noise.webp" alt="a) Single-sideband phase noise from 10 Hz to 1 MHz offset: the slow comb settles near −100 dBc/Hz and the fast one near −90 dBc/Hz. b) Allan variance of both repetition rates from 1 to 40 s, near 10^-3." width="1712" height="633" loading="lazy">
+      <figcaption><b>Fig. 5.</b> (a) RF phase noise of both combs. (b) Allan variance of the repetition rates.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="next">
+  <h2>What comes next</h2>
+  <p>Because the two combs are orthogonally polarized, the same laser could measure how a target changes polarization as well as how far away it is, by recording the comb beats for all the Stokes parameters. Injection locking could reduce the remaining drift of Δ<i>f</i>, and using the interferogram phase would push the precision well below the envelope-only result.</p>
+</section>
+
+<section id="cite">
+  <h2>Cite and credits</h2>
+  <p>A. Rodriguez Cuevas, D. Stoliarov, H. Kbashi and S. Sergeyev, “Dual-comb polarization-multiplexing ring-cavity fiber laser for ranging applications”, <i>Optics Express</i> 33(8), 18161–18168 (2025). <a href="https://doi.org/10.1364/OE.555772">doi:10.1364/OE.555772</a></p>
+
+  <pre id="bibtex"><code>@article{RodriguezCuevas2025,
+  author  = {Rodriguez Cuevas, Alberto and Stoliarov, Dmitrii and
+             Kbashi, Hani and Sergeyev, Sergey},
+  title   = {Dual-comb polarization-multiplexing ring-cavity fiber
+             laser for ranging applications},
+  journal = {Optics Express},
+  volume  = {33},
+  number  = {8},
+  pages   = {18161--18168},
+  year    = {2025},
+  doi     = {10.1364/OE.555772}
+}</code></pre>
+  <p><button type="button" id="copy-bibtex">Copy BibTeX</button></p>
+
+  <h3>Authors</h3>
+  <ul class="people">
+    <li><a href="https://orcid.org/0000-0002-4772-9427">Alberto Rodriguez Cuevas</a><span>Aston Institute of Photonic Technologies, Aston University, Birmingham</span></li>
+    <li>Dmitrii Stoliarov<span>Aston Institute of Photonic Technologies, Aston University, Birmingham</span></li>
+    <li>Hani Kbashi<span>Aston Institute of Photonic Technologies, Aston University, Birmingham</span></li>
+    <li>Sergey Sergeyev<span>Aston Institute of Photonic Technologies, Aston University, Birmingham</span></li>
+  </ul>
+  <p>Funded by Horizon Europe Marie Skłodowska-Curie Actions (ETN MEFISTA, 861152), EPSRC (EP/W002868/1), the Royal Academy of Engineering (IF2223B-133) and the Royal Society (IF\R1\241042RS).</p>
+
+  <h3>Earlier work on this laser</h3>
+  <ul class="people">
+    <li><a href="https://doi.org/10.1016/j.rinp.2023.106260">Polarization dynamics, stability and tunability of a dual-comb polarization-multiplexing ring-cavity fiber laser</a><span>Results in Physics 46, 106260 (2023)</span></li>
+    <li><a href="https://doi.org/10.1038/s41598-023-46999-9">Single-shot dynamics of dual-comb generation in a polarization-multiplexing fiber laser</a><span>Scientific Reports 13, 19673 (2023)</span></li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <p>This page summarises an open-access article published by Optica under a CC&nbsp;BY&nbsp;4.0 licence. Figures are reproduced from it; the animations and the calculator are illustrations built on the published values, not simulations of the laser.</p>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
